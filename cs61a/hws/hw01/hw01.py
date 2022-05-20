@@ -1,5 +1,6 @@
 from operator import add, sub
 
+
 def a_plus_abs_b(a, b):
     """Return a+abs(b), but without calling abs.
 
@@ -7,16 +8,23 @@ def a_plus_abs_b(a, b):
     5
     >>> a_plus_abs_b(2, -3)
     5
-    >>> # a check that you didn't change the return statement!
+    """
+    if b < 0:
+        f =sub 
+    else:
+        f =add 
+    return f(a, b)
+
+
+def a_plus_abs_b_syntax_check():
+    """Check that you didn't change the return statement of a_plus_abs_b.
+
+    >>> # You aren't expected to understand the code of this test.
     >>> import inspect, re
     >>> re.findall(r'^\s*(return .*)', inspect.getsource(a_plus_abs_b), re.M)
     ['return f(a, b)']
     """
-    if b < 0:
-        f = sub
-    else:
-        f = add
-    return f(a, b)
+    # You don't need to edit this function. It's just here to check your work.
 
 
 def two_of_three(x, y, z):
@@ -31,13 +39,19 @@ def two_of_three(x, y, z):
     68
     >>> two_of_three(5, 5, 5)
     50
-    >>> # check that your code consists of nothing but an expression (this docstring)
-    >>> # a return statement
+    """
+    return x**2+y**2+z**2-max(x,y,z)**2
+
+
+def two_of_three_syntax_check():
+    """Check that your two_of_three code consists of nothing but a return statement.
+
+    >>> # You aren't expected to understand the code of this test.
     >>> import inspect, ast
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(two_of_three)).body[0].body]
     ['Expr', 'Return']
     """
-    return x**2+y**2+z**2-max(x,y,z)**2
+    # You don't need to edit this function. It's just here to check your work.
 
 
 def largest_factor(n):
@@ -50,64 +64,66 @@ def largest_factor(n):
     >>> largest_factor(13) # factor is 1 since 13 is prime
     1
     """
-    "*** YOUR CODE HERE ***"
-    for i in range(n//2,0,-1):
-        if n%i==0:
-            return i
+    i=n//2
+    while n%i!=0:
+        i-=1
+    return i
+
+def limited(x, z, limit):
+    """Logic that is common to invert and change."""
+    if x != 0:
+        return min(z/x, limit)
+    else:
+        return limit
 
 
-def if_function(condition, true_result, false_result):
-    """Return true_result if condition is a true value, and
-    false_result otherwise.
+def invert_short(x, limit):
+    """Return 1/x, but with a limit.
 
-    >>> if_function(True, 2, 3)
+    >>> x = 0.2
+    >>> 1/x
+    5.0
+    >>> invert_short(x, 100)
+    5.0
+    >>> invert_short(x, 2)    # 2 is smaller than 5
     2
-    >>> if_function(False, 2, 3)
-    3
-    >>> if_function(3==2, 3+2, 3-2)
+
+    >>> x = 0
+    >>> invert_short(x, 100)  # No error, even though 1/x divides by 0!
+    100
+    """
+    return limited(x,1, limit)
+
+
+def change_short(x, y, limit):
+    """Return abs(y - x) as a fraction of x, but with a limit.
+
+    >>> x, y = 2, 5
+    >>> abs(y - x) / x
+    1.5
+    >>> change_short(x, y, 100)
+    1.5
+    >>> change_short(x, y, 1)    # 1 is smaller than 1.5
     1
-    >>> if_function(3>2, 3+2, 3-2)
-    5
+
+    >>> x = 0
+    >>> change_short(x, y, 100)  # No error, even though abs(y - x) / x divides by 0!
+    100
     """
-    if condition:
-        return true_result
-    else:
-        return false_result
+    return limited(x, abs(y - x), limit)
 
 
-def with_if_statement():
+def invert_and_change_syntax_check():
+    """Checks that definitions of invert_short and change_short are just return statements.
+
+    >>> # You aren't expected to understand the code of this test.
+    >>> import inspect, ast
+    >>> [type(x).__name__ for x in ast.parse(inspect.getsource(invert_short)).body[0].body]
+    ['Expr', 'Return']
+    >>> [type(x).__name__ for x in ast.parse(inspect.getsource(change_short)).body[0].body]
+    ['Expr', 'Return']
     """
-    >>> result = with_if_statement()
-    47
-    >>> print(result)
-    None
-    """
-    if cond():
-        return true_func()
-    else:
-        return false_func()
-
-def with_if_function():
-    """
-    >>> result = with_if_function()
-    42
-    47
-    >>> print(result)
-    None
-    """
-    return if_function(cond(), true_func(), false_func())
-
-def cond():
-    "*** YOUR CODE HERE ***"
-    return  False
-
-def true_func():
-    "*** YOUR CODE HERE ***"
-    print(42)
-
-def false_func():
-    "*** YOUR CODE HERE ***"
-    print(47)
+    # You don't need to edit this function. It's just here to check your work.
 
 
 def hailstone(n):
@@ -126,18 +142,40 @@ def hailstone(n):
     7
     """
     "*** YOUR CODE HERE ***"
-    step=1
+    cout=1
     while n!=1:
         print(n)
-        if n%2==0:
-            n=n//2
-        else:
+        cout+=1
+        if n%2:
             n=n*3+1
-        step+=1
+        else:
+            n=n//2
     print(1)
-    return step
+    return cout
 
-    
+"*** YOUR CODE HERE ***"
+quine = ''
 
 
+def quine_test():
+    """
+    >>> quine_test()
+    QUINE!
+    """
+    import contextlib, io
 
+    f = io.StringIO()
+    with contextlib.redirect_stdout(f):
+        exec(quine)
+    quine_output = f.getvalue()
+    if quine == quine_output:
+        print("QUINE!")
+        return
+    print("Not a quine :(")
+    print("Code was:   %r" % quine)
+    print("Output was: %r" % quine_output)
+    print("Side by side:")
+    print(quine)
+    print("*" * 100)
+    print(quine_output)
+    print("*" * 100)
