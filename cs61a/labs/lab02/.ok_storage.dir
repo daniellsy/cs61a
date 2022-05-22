@@ -1,0 +1,6 @@
+'composite_identity-correct', (0, 70)
+'Lambda the Free-correct', (512, 70)
+'Higher Order Functions-correct', (1024, 70)
+'lambda_curry2-correct', (1536, 70)
+'lambda_curry2_syntax_check-correct', (2048, 70)
+'count_cond-correct', (2560, 70)
