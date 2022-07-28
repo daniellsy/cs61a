@@ -1,5 +1,6 @@
 """CS 61A Presents The Game of Hog."""
 
+from numpy import zeros
 from dice import six_sided, four_sided, make_test_dice
 from ucb import main, trace, interact
 
@@ -22,6 +23,17 @@ def roll_dice(num_rolls, dice=six_sided):
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    c=zeros(num_rolls)
+    add=0
+    for i in range(num_rolls):
+       c[i]=dice()
+    for i in range(num_rolls):
+        if c[i]==1:
+           add=1
+           break
+        else:
+           add+=c[i] 
+    return int(add) 
     # END PROBLEM 1
 
 
