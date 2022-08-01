@@ -1,7 +1,8 @@
 """CS 61A Presents The Game of Hog."""
 
 import re
-from numpy import zeros
+from matplotlib.cbook import delete_masked_points
+from numpy import compare_chararrays, zeros
 from dice import six_sided, four_sided, make_test_dice
 from ucb import main, trace, interact
 
@@ -131,7 +132,7 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     while score0<goal and score1<goal:
-        if who==0:
+        if who==0: 
             score0+=take_turn(strategy0(score0,score1),score1,dice,goal)
             score0+=hog_pile(score0,score1)
         else:
@@ -141,7 +142,7 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+        say=say(score0,score1)
     # END PROBLEM 6
     return score0, score1
 
@@ -218,8 +219,20 @@ def announce_highest(who, last_score=0, running_high=0):
     30 point(s)! That's a record gain for Player 1!
     """
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
-    # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+    def compare(score0,score1):
+        if who==0:
+            delta=score0-last_score
+            a=score0
+        else:
+            delta=score1-last_score
+            a=score1
+        if delta>running_high:
+            print("%d point(s)! That's a record gain for Player %d!"%(delta,who))
+            b=delta
+        else:
+            b=running_high
+        return announce_highest(who,a,b)
+    return compare
     # END PROBLEM 7
 
 
