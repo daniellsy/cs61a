@@ -170,7 +170,12 @@ def count_coins(change):
     """
     if change<5:
         return 1
-        return 
+    elif change<10:
+        return count_coins(change-5)+count_coins(change-descending_coin(5))
+    elif change<25:
+        return count_coins(change-10)+count_coins(change-descending_coin(10))
+    else:
+        return count_coins(change-20)+count_coins(change-descending_coin(20))
 
 
 def print_move(origin, destination):
