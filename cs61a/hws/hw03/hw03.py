@@ -168,14 +168,16 @@ def count_coins(change):
     >>> check(HW_SOURCE_FILE, 'count_coins', ['While', 'For'])
     True
     """
-    if change<5:
-        return 1
-    elif change<10:
-        return count_coins(change-5)+count_coins(change-descending_coin(5))
-    elif change<25:
-        return count_coins(change-10)+count_coins(change-descending_coin(10))
-    else:
-        return count_coins(change-20)+count_coins(change-descending_coin(20))
+    def inner(num,n):
+        if num==0:
+            return 1
+        elif num<0:
+            return 0
+        elif n==None:
+            return 0
+        else:
+            return inner(num,ascending_coin(n))+inner(num-n,n)
+    return inner(change,1)
 
 
 def print_move(origin, destination):
