@@ -137,7 +137,8 @@ def autocorrect(typed_word, valid_words, diff_function, limit):
     'testing'
     """
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    if any(typed_word==i for i in valid_words):
+        return typed_word
     # END PROBLEM 5
 
 
