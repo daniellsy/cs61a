@@ -1,5 +1,8 @@
 """Typing test implementation"""
 
+from errno import ESTALE
+from os import stat
+from turtle import st
 from utils import lower, split, remove_punctuation, lines_from_file
 from ucb import main, interact, trace
 from datetime import datetime
@@ -137,8 +140,10 @@ def autocorrect(typed_word, valid_words, diff_function, limit):
     'testing'
     """
     # BEGIN PROBLEM 5
-    if any(typed_word==i for i in valid_words):
+    if typed_word in valid_words or all(diff_function(typed_word,a,limit)>limit for a in valid_words):
         return typed_word
+    else:
+        return min(valid_words,key=lambda word:diff_function(typed_word,word,limit))
     # END PROBLEM 5
 
 
@@ -165,7 +170,14 @@ def feline_flips(start, goal, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    if start=='' or goal=='':
+        return max(len(goal),len(start))
+    if limit==0:
+        if start== goal:
+            return 0
+        else:
+            return 1
+    return feline_flips(start[1:],goal[1:],limit-int(start[0]!=goal[0]))+int(start[0]!=goal[0])
     # END PROBLEM 6
 
 
@@ -186,24 +198,23 @@ def minimum_mewtations(start, goal, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
-
-    if ______________:  # Fill in the condition
+    if start=='' or goal=='':  # Fill in the condition
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return max(len(start),len(goal))
         # END
 
-    elif ___________:  # Feel free to remove or add additional cases
+    elif limit==0:  # Feel free to remove or add additional cases
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return int(start!=goal)
         # END
-
+    elif start[0]==goal[0]:
+        return minimum_mewtations(start[1:],goal[1:],limit)
     else:
-        add = ...  # Fill in these lines
-        remove = ...
-        substitute = ...
+        add = minimum_mewtations(start,goal[1:],limit-1)+1 # Fill in these lines
+        remove = minimum_mewtations(start[1:],goal,limit-1)+1
+        substitute = minimum_mewtations(start[1:],goal[1:],limit-1)+1
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return min(add,min(remove,substitute))
         # END
 
 
