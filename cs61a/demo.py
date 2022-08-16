@@ -36,4 +36,3 @@ def move_stack(n,start,end):
         bridge=6-start-end
         move_stack(n-1,start,bridge)
         print_move(start,end)
-        move_stack(n-1,bridge,end)
